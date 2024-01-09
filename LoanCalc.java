@@ -16,6 +16,7 @@ public class LoanCalc {
 		double loan = Double.parseDouble(args[0]);
 		double rate = Double.parseDouble(args[1]);
 		int n = Integer.parseInt(args[2]);
+		System.out.println(endBalance (100000, 5, 3, 10000));
 		System.out.println("Loan sum = " + loan + ", interest rate = " + rate + "%, periods = " + n);
 		
 		// Computes the periodical payment using brute force search
@@ -39,9 +40,15 @@ public class LoanCalc {
 	*/
 	// Side effect: modifies the class variable iterationCounter.
     public static double bruteForceSolver(double loan, double rate, int n, double epsilon) {  
-    	// Replace the following statement with your code
-    	return 0;
-    }
+    	iterationCounter = 0;
+		double g = loan / n;
+		while (endBalance(loan,rate,n,g) > 0) {	
+			g += epsilon;
+			iterationCounter++;
+		}
+		return g;
+	}
+
     
     /**
 	* Uses bisection search to compute an approximation of the periodical payment 
@@ -52,15 +59,41 @@ public class LoanCalc {
 	// Side effect: modifies the class variable iterationCounter.
     public static double bisectionSolver(double loan, double rate, int n, double epsilon) {  
     	// Replace the following statement with your code
-    	return 0;
+		iterationCounter = 0;
+
+		double L = loan / n;
+		double H = loan;
+		double g = ((H + L)/2);
+		
+		while ((H - L) > epsilon) {
+			// Sets L and H for the next iteration
+			if (endBalance(loan,rate,n,g)*endBalance(loan,rate,n,L) > 0) {	
+			// the solution must be between g and H 
+			// so set L or H accordingly
+			L = g;
+		}	
+			else {
+			H = g;
+		}
+		g = (H + L)/2;
+			iterationCounter++;
+		}
+		return g;
     }
+
 	
 	/**
 	* Computes the ending balance of a loan, given the sum of the loan, the periodical
 	* interest rate (as a percentage), the number of periods (n), and the periodical payment.
 	*/
 	private static double endBalance(double loan, double rate, int n, double payment) {
-		// Replace the following statement with your code
-    	return 0;
+		double endB = loan;
+		
+		for (int i = 0; i < n; i++) {
+			endB = ((endB - payment) * (rate/100 + 1));
+
+		}
+    	return endB;
+		
 	}
 }
