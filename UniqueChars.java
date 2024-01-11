@@ -16,11 +16,11 @@ public class UniqueChars {
 
         for (int i = 0; i < oldString.length(); i++) {
             char currentChar = oldString.charAt(i);
-            if(currentChar != ' ' && newString.indexOf(currentChar) == -1){
+            if (currentChar == ' ' || newString.indexOf(currentChar) == -1) {
                 newString = newString + currentChar;
             }  
         }
         return newString;
     }
     
-}
+} 
